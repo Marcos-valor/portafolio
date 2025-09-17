@@ -141,12 +141,12 @@ body {
     margin-bottom: 32px;
 }
 
-.profile-img {
-    width: 150px;
-    height: 150px;
+.imagen-perfil {
+    width: 220px;
+    height: 220px;
     border-radius: 50%;
     object-fit: cover;
-    border: 4px solid rgba(255, 255, 255, 0.2);
+    border: 2px solid #F3BD66;
     transition: transform 0.3s ease;
 }
 
@@ -445,7 +445,7 @@ section {
 }
 
 /* Experiencia */
-.experience {
+/*.experience {
     background: #172531;
 }
 
@@ -487,7 +487,7 @@ section {
     position: absolute;
     width: 16px;
     height: 16px;
-    background: #6366f1;
+    background: #F3BD66;
     border-radius: 50%;
     top: 0;
     border: 4px solid white;
@@ -499,6 +499,7 @@ section {
 }
 
 .timeline-item:nth-child(even) .timeline-marker {
+    position:inherit ;
     left: -8px;
 }
 

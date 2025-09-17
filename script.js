@@ -77,6 +77,17 @@ contactForm.addEventListener('submit', (e) => {
     const email = formData.get('email');
     const message = formData.get('message');
     
+    document.getElementById("contact-form").addEventListener("submit",function(e) {
+        e.preventDefault();
+
+        emailjs.sendform("service_e4wp3tq","template_ggu4o2k",this)
+        .then(() => {
+    alert("✅ Mensaje enviado con éxito, gracias por contactarme!");
+      this.reset(); // Limpia el formulario
+    }, (err) => {
+    alert("❌ Error al enviar: " + JSON.stringify(err));
+    });
+    });
     // Simple validation
     if (!name || !email || !message) {
         showNotification('Por favor, completa todos los campos', 'error');
