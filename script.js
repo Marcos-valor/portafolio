@@ -77,17 +77,23 @@ contactForm.addEventListener('submit', (e) => {
     const email = formData.get('email');
     const message = formData.get('message');
     
-    document.getElementById("contact-form").addEventListener("submit",function(e) {
+    document.addEventListener("DomContentLoaded",function () {
+        const form = document.getElementById("contact-form");
+        const result = document.getElementById("result");
+
+    form.addEventListener("submit", function (e) {
         e.preventDefault();
 
-        emailjs.sendform("service_e4wp3tq","template_ggu4o2k",this)
-        .then(() => {
-    alert("✅ Mensaje enviado con éxito, gracias por contactarme!");
-      this.reset(); // Limpia el formulario
-    }, (err) => {
-    alert("❌ Error al enviar: " + JSON.stringify(err));
-    });
-    });
+        emailjs.sendform("service_e4wp3tq","template_ggu4o2k",this
+          ).then(() => {
+    result.textContent = "✅ Mensaje enviado con éxito, gracias por contactarme!";
+      form.reset(); // Limpia el formulario
+    }, (error) => {
+        console.error ("error", error);
+    result.textConten = "❌ Error al enviar: ";
+          });
+       });
+    });   
     // Simple validation
     if (!name || !email || !message) {
         showNotification('Por favor, completa todos los campos', 'error');
