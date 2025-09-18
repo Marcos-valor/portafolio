@@ -115,7 +115,7 @@ contactForm.addEventListener('submit', (e) => {
         })
         .catch((error) => {
             console.error('Error al enviar:', error);
-            result.innerHTML = '<p style="color: #ef4444;">❌ Error al enviar el mensaje. Por favor, intenta nuevamente.</p>';
+            result.innerHTML = `<p style="color: #ef4444;">❌ Error al enviar el mensaje: ${error.text || error.message || 'Error desconocido'}</p>`;
             showNotification('Error al enviar el mensaje. Intenta nuevamente.', 'error');
         })
         .finally(() => {
