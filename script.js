@@ -125,15 +125,16 @@ contactForm.addEventListener('submit', (e) => {
 });
 
 // Limpiar mensaje de resultado cuando el usuario empiece a escribir
-document.getElementById('name').addEventListener('input', clearResult);
-document.getElementById('email').addEventListener('input', clearResult);
-document.getElementById('message').addEventListener('input', clearResult);
+const nameInput = document.getElementById('name');
+const emailInput = document.getElementById('email');
+const messageInput = document.getElementById('message');
 
+if (nameInput) nameInput.addEventListener('input', clearResult);
+if (emailInput) emailInput.addEventListener('input', clearResult);
+if (messageInput) messageInput.addEventListener('input', clearResult);
 function clearResult() {
     const result = document.getElementById('result');
-    if (result.innerHTML) {
-        submitButton.innerHTML = originalText;
-        submitButton.disabled = false;
+    if (result && result.innerHTML) {
         result.innerHTML = '';
     }
 }
