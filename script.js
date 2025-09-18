@@ -67,53 +67,76 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // Contact form handling
 const contactForm = document.getElementById('contact-form');
+const result = document.getElementById('result');
 
 contactForm.addEventListener('submit', (e) => {
     e.preventDefault();
     
-    // Get form data
-    const formData = new FormData(contactForm);
-    const name = formData.get('name');
-    const email = formData.get('email');
-    const message = formData.get('message');
+    // Obtener datos del formulario
+    const name = document.getElementById('name').value;
+    const email = document.getElementById('email').value;
+    const message = document.getElementById('message').value;
     
-    document.addEventListener('DOMContentLoaded', function () {
-            const form = document.getElementById("contact-form");
-            const result = document.getElementById('result');
-
-            form.addEventListener('submit', function (e) {
-                e.preventDefault();
-
-                emailjs.sendform('service_e4wp3tq', 'template_ggu4o2k', this
-                ).then(() => {
-                    result.textContent = '✅ Mensaje enviado con éxito, gracias por contactarme!';
-                    form.reset(); // Limpia el formulario
-                }, (error) => {
-                    console.error('Error:', error);
-                    result.textContent = "❌ Error al enviar. Intenta nuevamente. ";
-                });
-            });
-        });   
-    // Simple validation
+    // Validación simple
     if (!name || !email || !message) {
-        showNotification('Por favor, completa todos los campos', 'error');
+        result.innerHTML = '<p style="color: #ef4444;">❌ Por favor, completa todos los campos</p>';
         return;
     }
     
-    // Simulate form submission
+    // Validar email
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+        result.innerHTML = '<p style="color: #ef4444;">❌ Por favor, ingresa un email válido</p>';
+        return;
+    }
+    
+    // Mostrar estado de envío
     const submitButton = contactForm.querySelector('button[type="submit"]');
     const originalText = submitButton.innerHTML;
     
     submitButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Enviando...';
     submitButton.disabled = true;
+    result.innerHTML = '<p style="color: #6366f1;">📤 Enviando mensaje...</p>';
     
-    setTimeout(() => {
-        showNotification('¡Mensaje enviado correctamente! Te contactaré pronto.', 'success');
-        contactForm.reset();
+    // Preparar parámetros para EmailJS
+    const templateParams = {
+        from_name: name,
+        from_email: email,
+        message: message,
+        to_email: 'valormarcos.dev@gmail.com'
+    };
+    
+    // Enviar email usando EmailJS
+    emailjs.send('service_e4wp3tq', 'template_ggu4o2k', templateParams)
+        .then(() => {
+            result.innerHTML = '<p style="color: #10b981;">✅ ¡Mensaje enviado con éxito! Te contactaré pronto.</p>';
+            contactForm.reset();
+            showNotification('¡Mensaje enviado correctamente! Te contactaré pronto.', 'success');
+        })
+        .catch((error) => {
+            console.error('Error al enviar:', error);
+            result.innerHTML = '<p style="color: #ef4444;">❌ Error al enviar el mensaje. Por favor, intenta nuevamente.</p>';
+            showNotification('Error al enviar el mensaje. Intenta nuevamente.', 'error');
+        })
+        .finally(() => {
+            submitButton.innerHTML = originalText;
+            submitButton.disabled = false;
+        });
+});
+
+// Limpiar mensaje de resultado cuando el usuario empiece a escribir
+document.getElementById('name').addEventListener('input', clearResult);
+document.getElementById('email').addEventListener('input', clearResult);
+document.getElementById('message').addEventListener('input', clearResult);
+
+function clearResult() {
+    const result = document.getElementById('result');
+    if (result.innerHTML) {
         submitButton.innerHTML = originalText;
         submitButton.disabled = false;
-    }, 2000);
-});
+        result.innerHTML = '';
+    }
+}
 
 // Notification system
 function showNotification(message, type = 'info') {

@@ -660,6 +660,21 @@ section {
     min-height: 120px;
 }
 
+/* Resultado del formulario */
+.form-result {
+    margin-top: 20px;
+    padding: 0;
+    border-radius: 8px;
+    text-align: center;
+}
+
+.form-result p {
+    margin: 0;
+    padding: 12px;
+    border-radius: 6px;
+    font-weight: 500;
+}
+
 /* Footer */
 .footer {
     background: #1f2937;
